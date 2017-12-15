@@ -1,14 +1,6 @@
 <html>
   <body>
-    <p id='server-time'></p>
-    <script>
-      var socket = io();
-      var el = document.getElementById('server-time');
-
-      socket.on('time', function(timeString) {
-        el.innerHTML = 'Server time: ' + timeString;
-      });
-    </script>
+   
     
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
@@ -90,7 +82,15 @@
     
     
     
-    
+     <p id='server-time'></p>
+    <script>
+      var socket = io();
+      var el = document.getElementById('server-time');
+
+      socket.on('time', function(timeString) {
+        el.innerHTML = 'Server time: ' + timeString;
+      });
+    </script>
     
     
   </body>
