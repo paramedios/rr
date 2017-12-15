@@ -1,7 +1,6 @@
 <html>
   <body>
     <p id='server-time'></p>
-    <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
       var el = document.getElementById('server-time');
@@ -10,5 +9,89 @@
         el.innerHTML = 'Server time: ' + timeString;
       });
     </script>
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+		<style>
+			#messages { list-style-type: none; margin: 0; padding: 0; }
+			#messages li { padding: 10px 10px; }
+			#messages li:nth-child(odd) { background: #eee; }
+		</style>
+		<script>
+			function getCookie(cname) {
+				var name = cname + "=";
+				var ca = document.cookie.split(';');
+				for(var i=0; i<ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0)==' ') c = c.substring(1);
+					if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+				}
+				return "";
+			} 
+			function setCookie(cname, cvalue, exdays) {
+				var d = new Date();
+				d.setTime(d.getTime() + (exdays*24*60*60*1000));
+				var expires = "expires="+d.toUTCString();
+				document.cookie = cname + "=" + cvalue + "; " + expires;
+			} 
+		</script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<script>
+				setCookie('username','User1',6);
+				if(!Array.prototype.last){
+					Array.prototype.last = (function(){
+						return this[this.length - 1];
+					});
+				}
+				var id = window.location.href.split('/').last();
+				document.write('<h3>Chat Room ' + id + '</h3><hr />');
+			</script>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="panel panel-primary">
+						<div class="panel-heading">Message</div>
+						<div class="panel-body">
+							<ul id="messages" style="height:300px;overflow: auto"></ul>
+						</div>
+						<form id="form" style="margin:5px;width:100%">
+							<input type="text" id="m" style="width:80%" autocomplete="off" placeholder="Type your message here" />
+							<button type="submit" style="width:15%">Send</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="//code.jquery.com/jquery-2.2.2.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io();
+			socket.emit('register',id);
+			var $m = $('#m');
+			var $message = $('#messages');
+			$('#form').on('submit',function(e){
+				if($m.val().trim() != ''){
+					e.preventDefault();
+					socket.emit('chat','<b>' + getCookie('username') + '</b> ' + $m.val());
+					$m.val('');
+					$message.animate({ scrollTop: $message.prop("scrollHeight")}, 1000);
+				}else{
+					return false;
+				}
+			});
+			socket.on('chat',function(data){
+				$message.append('<li>' + data + '</li>');
+				$message.animate({ scrollTop: $message.prop("scrollHeight")}, 1000);
+			});
+		</script>
+    
+    
+    
+    
+    
+    
+    
   </body>
 </html>
