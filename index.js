@@ -2,7 +2,7 @@ var server = require('websocket').server, http = require('http');
 var axios = require('axios');
 
 var socket = new server({
-    httpServer: http.createServer().listen(1337)
+    httpServer: http.createServer().listen(3000)
 });
 
 socket.on('request', function(request) {
