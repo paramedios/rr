@@ -5,9 +5,14 @@
   "dependencies": {
     "websocket": "1.0.25",
     "request": "2.83.0",
-    "axios": "0.17.1"
+    "axios": "0.17.1",
+     "express": "2.5.5"
+      , "jade": "0.16.4"
+      , "stylus": "0.19.0"
+      , "nib": "0.2.0"
+      , "socket.io": "0.9.1-1"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   }
 }
